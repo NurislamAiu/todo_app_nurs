@@ -17,13 +17,13 @@ class TaskTile extends StatelessWidget {
           decoration: task.isDone ? TextDecoration.lineThrough : null,
         ),
       ),
-      leading: Checkbox(
-        value: task.isDone,
-        onChanged: (value) => onToggle(),
-      ),
-      trailing: IconButton(
-        icon: Icon(Icons.delete),
-        onPressed: onDelete,
+      subtitle: task.subtitle.isNotEmpty ? Text(task.subtitle) : null, // Отображение подзаголовка
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Checkbox(value: task.isDone, onChanged: (_) => onToggle()),
+          IconButton(icon: Icon(Icons.delete), onPressed: onDelete),
+        ],
       ),
     );
   }

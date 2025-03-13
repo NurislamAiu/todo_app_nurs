@@ -10,9 +10,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<Task> tasks = [];
 
-  void addTask(String taskTitle) {
+  void addTask(String title, String subtitle) {
     setState(() {
-      tasks.add(Task(title: taskTitle));
+      tasks.add(Task(title: title, subtitle: subtitle)); // Добавлен subtitle
     });
   }
 
@@ -44,28 +44,39 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          String newTaskTitle = '';
+          String newTaskSubtitle = '';
           showDialog(
             context: context,
             builder: (context) {
-              String newTaskTitle = '';
               return AlertDialog(
                 title: Text('Добавить задачу'),
-                content: TextField(
-                  onChanged: (value) {
-                    newTaskTitle = value;
-                  },
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      decoration: InputDecoration(labelText: 'Название задачи'),
+                      onChanged: (value) {
+                        newTaskTitle = value;
+                      },
+                    ),
+                    TextField(
+                      decoration: InputDecoration(labelText: 'Описание задачи'),
+                      onChanged: (value) {
+                        newTaskSubtitle = value;
+                      },
+                    ),
+                  ],
                 ),
                 actions: [
                   TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
+                    onPressed: () => Navigator.pop(context),
                     child: Text('Отмена'),
                   ),
                   TextButton(
                     onPressed: () {
                       if (newTaskTitle.isNotEmpty) {
-                        addTask(newTaskTitle);
+                        addTask(newTaskTitle, newTaskSubtitle);
                       }
                       Navigator.pop(context);
                     },
